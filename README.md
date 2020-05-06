@@ -46,6 +46,11 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 
       docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_getclient CLIENTNAME > CLIENTNAME.ovpn
 
+* Revoke a client
+```
+  docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it kylemanna/openvpn ovpn_revokeclient CLIENNAME
+```
+
 ## Next Steps
 
 ### More Reading
