@@ -44,11 +44,11 @@ remove_files(){
 }
 
 case "$parm" in
-    "remove")
+    "" | "remove")
         revoke_client_certificate "$cn"
         remove_files "$cn"
         ;;
-    "" | "keep")
+    "keep")
         revoke_client_certificate "$cn"
         ;;
     *)
