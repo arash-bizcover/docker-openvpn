@@ -50,7 +50,7 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 * 🏃‍♂️ Start OpenVPN server process
 
   ```bash
-  docker run -v $OVPN_DATA:/etc/openvpn -d -p 443:1194/udp --cap-add=NET_ADMIN --name ovpn -e OKTA_HOST="" -e OKTA_TOKEN="" -e APP_ID=""  docker/ovpn
+  docker run --restart always -v $OVPN_DATA:/etc/openvpn -d -p 443:1194/udp --cap-add=NET_ADMIN --name ovpn -e OKTA_HOST="" -e OKTA_TOKEN="" -e APP_ID=""  docker/ovpn
   ```
 
 * ➕ Generate a client certificate without a passphrase
@@ -78,7 +78,7 @@ IF okta plugin enabled below is the app serving the config file (okta SPA should
 
 ```bash
 cd webserve
-docker build . -t ovpn-okta-webserve && docker run -t -d -v /var/run/docker.sock:/var/run/docker.sock -v $OVPN_DATA:$OVPN_DATA -p 3000:3000 -e ISSUER="" -e VALID_DOMAIN="" -e OVPN_DOCKER_IMG="docker/ovpn" --name ovpn-okta-webserve ovpn-okta-webserve
+docker build . -t ovpn-okta-webserve && docker run --restart always -t -d -v /var/run/docker.sock:/var/run/docker.sock -v $OVPN_DATA:$OVPN_DATA -p 3000:3000 -e ISSUER="" -e VALID_DOMAIN="" -e OVPN_DOCKER_IMG="docker/ovpn" --name ovpn-okta-webserve ovpn-okta-webserve
 ```
 
 ### More Reading
