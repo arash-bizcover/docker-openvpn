@@ -78,7 +78,7 @@ IF okta plugin enabled below is the app serving the config file (okta SPA should
 
 ```bash
 cd webserve
-docker build . -t ovpn-okta-webserve && docker run  -v /var/run/docker.sock:/var/run/docker.sock -v $OVPN_DATA:$OVPN_DATA -p 3000:3000 -e ISSUER="" -e VALID_DOMAIN="" --name ovpn-okta-webserve ovpn-okta-webserve
+docker build . -t ovpn-okta-webserve && docker run -t -d -v /var/run/docker.sock:/var/run/docker.sock -v $OVPN_DATA:$OVPN_DATA -p 3000:3000 -e ISSUER="" -e VALID_DOMAIN="" -e OVPN_DOCKER_IMG="docker/ovpn" --name ovpn-okta-webserve ovpn-okta-webserve
 ```
 
 ### More Reading
