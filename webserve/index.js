@@ -51,7 +51,7 @@ var get_config = async (user) =>{
                     rm -f ${path.dirname(CONFIG_DIR)}/pki/private/${user}.key
                     rm -f ${path.dirname(CONFIG_DIR)}/pki/reqs/${user}.req
                     docker run -v ${path.dirname(CONFIG_DIR)}:/etc/openvpn --log-driver=none --rm -it ${DOCKER} easyrsa build-client-full ${user} nopass
-                    docker run -v ${path.dirname(CONFIG_DIR)}:/etc/openvpn --log-driver=none --rm -e OVPN_AUTH_USER_PASS=1 ${DOCKER} ovpn_getclient ${user} > ${CONFIG_DIR}${emailobf}
+                    docker run -v ${path.dirname(CONFIG_DIR)}:/etc/openvpn --log-driver=none --rm -e OVPN_AUTH_USER_PASS="okta" ${DOCKER} ovpn_getclient ${user} > ${CONFIG_DIR}${emailobf}
                     echo "Config file saved in ${CONFIG_DIR}${emailobf}"
                 else
                     echo "🎉 File already exist no executaion"
