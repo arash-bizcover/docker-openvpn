@@ -1,22 +1,5 @@
 # OpenVPN for Docker
 
-[![Build Status](https://travis-ci.org/kylemanna/docker-openvpn.svg)](https://travis-ci.org/kylemanna/docker-openvpn)
-[![Docker Stars](https://img.shields.io/docker/stars/docker/ovpn.svg)](https://hub.docker.com/r/docker/ovpn/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/docker/ovpn.svg)](https://hub.docker.com/r/docker/ovpn/)
-[![ImageLayers](https://images.microbadger.com/badges/image/docker/ovpn.svg)](https://microbadger.com/#/images/docker/ovpn)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkylemanna%2Fdocker-openvpn.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkylemanna%2Fdocker-openvpn?ref=badge_shield)
-
-
-OpenVPN server in a Docker container complete with an EasyRSA PKI CA.
-
-Extensively tested on [Digital Ocean $5/mo node](http://bit.ly/1C7cKr3) and has
-a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
-
-#### Upstream Links
-
-* Docker Registry @ [docker/ovpn](https://hub.docker.com/r/docker/ovpn/)
-* GitHub @ [kylemanna/docker-openvpn](https://github.com/kylemanna/docker-openvpn)
-
 ## Quick Start
 
 * Pick a name for the `$OVPN_DATA` data volume container. It's recommended to
@@ -67,8 +50,8 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 
 * ➖ Revoke a client *(skip if using okta)*
   ```bash
-  docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn ovpn_revokeclient CLIENNAME -->
-  ```
+  docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn ovpn_revokeclient CLIENNAME 
+  ```-->
 
 ## Next Steps
 
@@ -86,17 +69,7 @@ docker build . -t ovpn-okta-webserve && docker run --restart always -t -d -v /va
 Miscellaneous write-ups for advanced configurations are available in the
 [docs](docs) folder.
 
-### Systemd Init Scripts
 
-A `systemd` init script is available to manage the OpenVPN container.  It will
-start the container on system boot, restart the container if it exits
-unexpectedly, and pull updates from Docker Hub to keep itself up to date.
-
-Please refer to the [systemd documentation](docs/systemd.md) to learn more.
-
-### Docker Compose
-
-If you prefer to use `docker-compose` please refer to the [documentation](docs/docker-compose.md).
 
 ## Debugging Tips
 
@@ -220,24 +193,3 @@ take away is that it certainly makes it more difficult to break out of the
 container.  People are actively working on Linux containers to make this more
 of a guarantee in the future.
 
-## Differences from jpetazzo/dockvpn
-
-* No longer uses serveconfig to distribute the configuration via https
-* Proper PKI support integrated into image
-* OpenVPN config files, PKI keys and certs are stored on a storage
-  volume for re-use across containers
-* Addition of tls-auth for HMAC security
-
-## Originally Tested On
-
-* Docker hosts:
-  * server a [Digital Ocean](https://www.digitalocean.com/?refcode=d19f7fe88c94) Droplet with 512 MB RAM running Ubuntu 14.04
-* Clients
-  * Android App OpenVPN Connect 1.1.14 (built 56)
-     * OpenVPN core 3.0 android armv7a thumb2 32-bit
-  * OS X Mavericks with Tunnelblick 3.4beta26 (build 3828) using openvpn-2.3.4
-  * ArchLinux OpenVPN pkg 2.3.4-1
-
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkylemanna%2Fdocker-openvpn.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkylemanna%2Fdocker-openvpn?ref=badge_large)
