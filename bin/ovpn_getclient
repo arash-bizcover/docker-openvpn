@@ -92,7 +92,7 @@ tls-auth ta.key 1
         echo "auth $OVPN_AUTH"
     fi
 
-    if [ -n "$OVPN_OTP_AUTH" || -n "$OVPN_AUTH_USER_PASS" ]; then
+    if [[ -n "$OVPN_OTP_AUTH" || -n "$OVPN_AUTH_USER_PASS" ]]; then
         echo "auth-user-pass"
     fi
 

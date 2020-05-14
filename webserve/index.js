@@ -11,8 +11,7 @@ const bash = cmd => execSync(cmd, { cwd: '/tmp', shell: '/bin/bash', encoding: '
 
 // This must be a subfolder in openvpn
 const LISTEN = 3000
-const CONFIG_DIR = "/etc/ovpn-data/ovpn-configfiles/"
-const CONFIG_REF = "/tmp/get_config_file_here"
+const CONFIG_DIR = process.env.OVPN_DATA != undefined ? `${process.env.OVPN_DATA}/ovpn-configfiles/` : "/opt/ovpn-data/ovpn-configfiles/"const CONFIG_REF = "/tmp/get_config_file_here"
 const ISSUER = process.env.ISSUER
 const VALID_DOMAIN = process.env.VALID_DOMAIN
 const BASH_DEBUG = `set -x`

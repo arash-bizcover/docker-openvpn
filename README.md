@@ -24,7 +24,12 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
   service.  Users are encourage to replace `example` with a descriptive name of
   their choosing.
 
-      OVPN_DATA="/opt/ovpn-data"
+  ```bash
+  export OVPN_DATA="/opt/ovpn-data"
+
+  #persist it
+  echo 'OVPN_DATA="/opt/ovpn-data"' >> /etc/environment
+  ```
 
 * 👷 Build the docker on server (skip if you have it build in a repo already)
 
@@ -69,8 +74,11 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 
 IF okta plugin enabled below is the app serving the config file (okta SPA should be setup and directed to this)
 
+*ℹ This is a docker in docker (note the volumes)*
+
 ```bash
-docker build . -t ovpn-okta-webserve && docker run -v /tmp/ovpn-data/:/etc/ovpn-data -p 3000:3000 -it -e ISSUER="" -e VALID_DOMAIN="" --name ovpn-okta-webserve ovpn-okta-webserve
+cd webserve
+docker build . -t ovpn-okta-webserve && docker run  -v /var/run/docker.sock:/var/run/docker.sock -v $OVPN_DATA:$OVPN_DATA -p 3000:3000 -e ISSUER="" -e VALID_DOMAIN="" --name ovpn-okta-webserve ovpn-okta-webserve
 ```
 
 ### More Reading
