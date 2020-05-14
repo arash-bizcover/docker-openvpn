@@ -97,4 +97,4 @@ if [ $? = 0 ]; then
 fi
 
 echo "Running 'openvpn ${ARGS[@]} ${USER_ARGS[@]}'"
-exec openvpn ${ARGS[@]} ${USER_ARGS[@]}
+exec env OKTA_HOST=$OKTA_HOST OKTA_TOKEN=$OKTA_TOKEN APP_ID=$APP_ID openvpn ${ARGS[@]} ${USER_ARGS[@]}
