@@ -46,6 +46,9 @@ var get_config = async (user) =>{
                 ${BASH_DEBUG}
                 mkdir -p ${CONFIG_DIR}
                 if [[ ! -f "${CONFIG_DIR}${emailobf}" ]]; then
+                    rm -f ${path.dirname(CONFIG_DIR)}/pki/issued/${user}.crt
+                    rm -f ${path.dirname(CONFIG_DIR)}/pki/private/${user}.key
+                    rm -f ${path.dirname(CONFIG_DIR)}/pki/reqs/${user}.req
                     docker run -v ${path.dirname(CONFIG_DIR)}:/etc/openvpn --log-driver=none --rm -it arashilmg/openvpn easyrsa build-client-full ${user} nopass
                     docker run -v ${path.dirname(CONFIG_DIR)}:/etc/openvpn --log-driver=none --rm -e OVPN_AUTH_USER_PASS=1 arashilmg/openvpn ovpn_getclient ${user} > ${CONFIG_DIR}${emailobf}
                     echo "Config file saved in ${CONFIG_DIR}${emailobf}"
