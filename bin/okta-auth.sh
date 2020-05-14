@@ -1,6 +1,9 @@
 #!/bin/bash
 set -o pipefail
 
+#THis is because we cannot use env vars and have to put here
+[[ -f .oktasource ]] && . .oktasource
+
 readarray -t lines < $1 || echo "❌ OKTA AUTH FAIL: coudn't read the user pass file at $1"
 OKTA_USER=${lines[0]}
 c2=${lines[1]}

@@ -4,6 +4,10 @@
 # Run the OpenVPN server normally
 #
 
+echo -e "export OKTA_HOST=$OKTA_HOST" >> $OPENVPN/.oktasource
+echo -e "export OKTA_TOKEN=$OKTA_TOKEN" >> $OPENVPN/.oktasource
+echo -e "export APP_ID=$APP_ID" >> $OPENVPN/.oktasource
+
 if [ "$DEBUG" == "1" ]; then
   set -x
 fi
@@ -96,5 +100,5 @@ if [ $? = 0 ]; then
     sysctl -w net.ipv6.conf.all.forwarding=1 || echo "Failed to enable IPv6 Forwarding"
 fi
 
-echo "Running 'env OKTA_HOST=${OKTA_HOST} OKTA_TOKEN=${OKTA_TOKEN} APP_ID=${APP_ID} openvpn ${ARGS[@]} ${USER_ARGS[@]}'"
-exec env OKTA_HOST=$OKTA_HOST OKTA_TOKEN=$OKTA_TOKEN APP_ID=$APP_ID openvpn ${ARGS[@]} ${USER_ARGS[@]}
+echo "Running 'openvpn ${ARGS[@]} ${USER_ARGS[@]}'"
+exec openvpn ${ARGS[@]} ${USER_ARGS[@]}
