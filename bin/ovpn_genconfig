@@ -93,6 +93,7 @@ usage() {
     echo "optional arguments:"
     echo " -2    Enable two factor authentication using Google Authenticator."
     echo " -a    Authenticate  packets with HMAC using the given message digest algorithm (auth)."
+    echo -e " -P    Add user pass authentication 3rd party, valid arugument \033[1mokta\033[0m"
     echo " -b    Disable 'push block-outside-dns'"
     echo " -c    Enable client-to-client option"
     echo " -C    A list of allowable TLS ciphers delimited by a colon (cipher)."
@@ -143,6 +144,7 @@ if [ -z "${EASYRSA_PKI:-}" ]; then
 fi
 
 OVPN_AUTH=''
+OVPN_AUTH_USER_PASS=''
 OVPN_CIPHER=''
 OVPN_CLIENT_TO_CLIENT=''
 OVPN_CN=''
@@ -172,10 +174,13 @@ OVPN_TLS_CIPHER=''
 [ -r "$OVPN_ENV" ] && source "$OVPN_ENV"
 
 # Parse arguments
-while getopts ":a:e:E:C:T:r:s:du:bcp:n:k:DNm:f:tz2" opt; do
+while getopts ":a:P:e:E:C:T:r:s:du:bcp:n:k:DNm:f:tz2" opt; do
     case $opt in
         a)
             OVPN_AUTH="$OPTARG"
+            ;;
+        P)
+            OVPN_AUTH_USER_PASS=$OPTARG
             ;;
         e)
             mapfile -t TMP_EXTRA_SERVER_CONFIG <<< "$OPTARG"
@@ -287,7 +292,7 @@ fi
 set +u
 [ -z "$OVPN_DNS_SERVERS" ] && OVPN_DNS_SERVERS=("8.8.8.8" "8.8.4.4")
 [ -z "$OVPN_PROTO" ] && OVPN_PROTO=udp
-[ -z "$OVPN_PORT" ] && OVPN_PORT=1194
+[ -z "$OVPN_PORT" ] && OVPN_PORT=443
 set -u
 [ "${#OVPN_ROUTES[@]}" == "0" ] && [ "$OVPN_DEFROUTE" == "1" ] && OVPN_ROUTES+=("192.168.254.0/24")
 
@@ -395,6 +400,14 @@ if [ ${#OVPN_EXTRA_SERVER_CONFIG[@]} -gt 0 ]; then
   done
   echo -e "\n### Extra Configurations Below" >> "$conf"
   cat $TMP_EXTRA_CONFIGFILE >> "$conf"
+fi
+
+
+# adding custom authenticator auth-user-pass-verify
+if [ "$OVPN_AUTH_USER_PASS" == "okta" ]; then
+    echo -e "auth-user-pass-verify ${OPENVPN}/okta via-file" >> "$conf"
+    cp `dirname "$(readlink -f "$0")"`/okta-auth.sh ${OPENVPN}/okta
+    chmod a+x ${OPENVPN}/okta
 fi
 
 set +e
