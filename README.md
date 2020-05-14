@@ -24,13 +24,7 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
   service.  Users are encourage to replace `example` with a descriptive name of
   their choosing.
 
-    *<font color="gray">On temp folder:</font>*
-
-      OVPN_DATA="/tmp/ovpn-data"
-
-    *<font color="gray">On presistent volume:</font>*
-
-      OVPN_DATA="ovpn-data"
+      OVPN_DATA="/opt/ovpn-data"
 
 * 👷 Build the docker on server (skip if you have it build in a repo already)
 
@@ -51,7 +45,7 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 * 🏃‍♂️ Start OpenVPN server process
 
   ```bash
-  docker run -v $OVPN_DATA:/etc/openvpn -d -p 443:1194/udp --cap-add=NET_ADMIN docker/ovpn
+  docker run -v $OVPN_DATA:/etc/openvpn -d -p 443:1194/udp --cap-add=NET_ADMIN --name ovpn -e OKTA_HOST="" -e OKTA_TOKEN="" -e APP_ID=""  docker/ovpn
   ```
 
 * ➕ Generate a client certificate without a passphrase
@@ -60,13 +54,13 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn easyrsa build-client-full CLIENTNAME nopass
   ```
 
-* 👀 Retrieve the client configuration with embedded certificates
+* 👀 Retrieve the client configuration with embedded certificates *(skip if using okta)*
 
   ```bash
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm docker/ovpn ovpn_getclient CLIENTNAME > CLIENTNAME.ovpn
   ```
 
-* ➖ Revoke a client
+* ➖ Revoke a client *(skip if using okta)*
   ```bash
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn ovpn_revokeclient CLIENNAME
   ```

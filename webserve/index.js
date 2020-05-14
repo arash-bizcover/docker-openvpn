@@ -13,12 +13,15 @@ const bash = cmd => execSync(cmd, { cwd: '/tmp', shell: '/bin/bash', encoding: '
 const LISTEN = 3000
 const CONFIG_DIR = "/etc/ovpn-data/ovpn-configfiles/"
 const CONFIG_REF = "/tmp/get_config_file_here"
-const ISSUER = "https://bizcover-com.okta.com"
-const VALID_DOMAIN = "@bizcover.comsdf.au"
+const ISSUER = process.env.ISSUER
+const VALID_DOMAIN = process.env.VALID_DOMAIN
 const BASH_DEBUG = `set -x`
 
 var authorize = async(token) =>{
     try{
+        if(ISSUER == undefined || VALID_DOMAIN == undefined){
+            throw(`ISSUER and VALID_DOMAIN env vars should be set`)
+        }
         var decoded = jwt.decode(token);
         // console.log(decoded)
         if(decoded.iss != ISSUER){
