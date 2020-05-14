@@ -70,7 +70,7 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 IF okta plugin enabled below is the app serving the config file (okta SPA should be setup and directed to this)
 
 ```bash
-docker build . -t ovpn-okta-webserve && docker run -v /tmp/ovpn-data/:/etc/ovpn-data -p 3000:3000 -it  ovpn-okta-webserve
+docker build . -t ovpn-okta-webserve && docker run -v /tmp/ovpn-data/:/etc/ovpn-data -p 3000:3000 -it -e ISSUER="" -e VALID_DOMAIN="" --name ovpn-okta-webserve ovpn-okta-webserve
 ```
 
 ### More Reading
