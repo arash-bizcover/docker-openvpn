@@ -405,6 +405,7 @@ fi
 
 # adding custom authenticator auth-user-pass-verify
 if [ "$OVPN_AUTH_USER_PASS" == "okta" ]; then
+    echo -e "script-security 2" >> "$conf"
     echo -e "auth-user-pass-verify ${OPENVPN}/okta via-file" >> "$conf"
     cp `dirname "$(readlink -f "$0")"`/okta-auth.sh ${OPENVPN}/okta
     chmod a+x ${OPENVPN}/okta

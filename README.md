@@ -59,7 +59,7 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn easyrsa build-client-full CLIENTNAME nopass
   ```
 
-* 👀 Retrieve the client configuration with embedded certificates *(skip if using okta)*
+<!-- * 👀 Retrieve the client configuration with embedded certificates *(skip if using okta)*
 
   ```bash
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm docker/ovpn ovpn_getclient CLIENTNAME > CLIENTNAME.ovpn
@@ -67,7 +67,7 @@ a corresponding [Digital Ocean Community Tutorial](http://bit.ly/1AGUZkq).
 
 * ➖ Revoke a client *(skip if using okta)*
   ```bash
-  docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn ovpn_revokeclient CLIENNAME
+  docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn ovpn_revokeclient CLIENNAME -->
   ```
 
 ## Next Steps
