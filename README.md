@@ -44,13 +44,12 @@
 
 <!-- * 👀 Retrieve the client configuration with embedded certificates *(skip if using okta)*
 
-  ```bash
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm docker/ovpn ovpn_getclient CLIENTNAME > CLIENTNAME.ovpn
-  ```
 
 * ➖ Revoke a client *(skip if using okta)*
-  ```bash
+
   docker run -v $OVPN_DATA:/etc/openvpn --log-driver=none --rm -it docker/ovpn ovpn_revokeclient CLIENNAME 
+  
   ```-->
 
 ## Next Steps
@@ -137,34 +136,6 @@ directly reachable, since you will try to reach them through the VPN
 and they might not answer to you. If that happens, use public DNS
 resolvers like those of Google (8.8.4.4 and 8.8.8.8) or OpenDNS
 (208.67.222.222 and 208.67.220.220).
-
-
-## Security Discussion
-
-The Docker container runs its own EasyRSA PKI Certificate Authority.  This was
-chosen as a good way to compromise on security and convenience.  The container
-runs under the assumption that the OpenVPN container is running on a secure
-host, that is to say that an adversary does not have access to the PKI files
-under `/etc/openvpn/pki`.  This is a fairly reasonable compromise because if an
-adversary had access to these files, the adversary could manipulate the
-function of the OpenVPN server itself (sniff packets, create a new PKI CA, MITM
-packets, etc).
-
-* The certificate authority key is kept in the container by default for
-  simplicity.  It's highly recommended to secure the CA key with some
-  passphrase to protect against a filesystem compromise.  A more secure system
-  would put the EasyRSA PKI CA on an offline system (can use the same Docker
-  image and the script [`ovpn_copy_server_files`](/docs/paranoid.md) to accomplish this).
-* It would be impossible for an adversary to sign bad or forged certificates
-  without first cracking the key's passphase should the adversary have root
-  access to the filesystem.
-* The EasyRSA `build-client-full` command will generate and leave keys on the
-  server, again possible to compromise and steal the keys.  The keys generated
-  need to be signed by the CA which the user hopefully configured with a passphrase
-  as described above.
-* Assuming the rest of the Docker container's filesystem is secure, TLS + PKI
-  security should prevent any malicious host from using the VPN.
-
 
 ## Benefits of Running Inside a Docker Container
 
